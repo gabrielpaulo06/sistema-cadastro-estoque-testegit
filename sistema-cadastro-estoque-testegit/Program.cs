@@ -3,7 +3,7 @@
 produtos.Add(new Produto("Mouse", 50.0, 10));
 produtos.Add(new Produto("Teclado", 150.0, 5));
 produtos.Add(new Produto("Monitor", 800.0, 3));
-produtos.Add(new Produto("Mousepad", 50.0, 10));
+produtos.Add(new Produto("Celular", 1000.0, 10));
 
 int opcao;
 
