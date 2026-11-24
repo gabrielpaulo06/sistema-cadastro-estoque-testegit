@@ -3,7 +3,7 @@
 produtos.Add(new Produto("Mouse", 50.0, 10));
 produtos.Add(new Produto("Teclado", 150.0, 5));
 produtos.Add(new Produto("Monitor", 800.0, 3));
-produtos.Add(new Produto("Celular", 1000.0, 10));
+produtos.Add(new Produto("Mousepad", 50.0, 10));
 
 int opcao;
 
@@ -14,11 +14,12 @@ do
     Console.WriteLine("2 - Listar produtos");
     Console.WriteLine("3 - Mostrar quantidade de produtos");
     Console.WriteLine("4 - Adicionar estoque");
+    Console.WriteLine("5 - Remover estoque");
     Console.WriteLine("0 - Sair");
 
     Console.Write("\nEscolha uma opção: ");
-    if (!int.TryParse(Console.ReadLine(), out opcao))
-    {
+    if(!int.TryParse(Console.ReadLine(), out opcao))
+{
         Console.WriteLine("Digite uma opção numérica válida!");
         opcao = -1;
         continue;
@@ -37,6 +38,9 @@ do
             break;
         case 4:
             AdicionarEstoqueProduto(produtos);
+            break;
+        case 5:
+            RemoverEstoqueProduto(produtos);
             break;
         case 0:
             Console.WriteLine("\nSaindo do programa");
@@ -176,6 +180,68 @@ void AdicionarEstoqueProduto(List<Produto> listaProdutos)
                             produto.AdicionarEstoque(quantidadeAdicionar);
                             Console.WriteLine("Estoque atualizado com sucesso!");
                             quantidadeValida = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Quantidade inválida! Tente novamente.");
+                        }
+                    } while (!quantidadeValida);
+                    break;
+                }
+            }
+            if (!nomeEncontrado)
+            {
+                Console.WriteLine("Produto não encontrado! Tente novamente.");
+            }
+        }
+    } while (!nomeEncontrado);
+}
+
+void RemoverEstoqueProduto(List<Produto> listaProdutos)
+{
+    if (listaProdutos.Count == 0)
+    {
+        Console.WriteLine("\nNenhum produto cadastrado!");
+        return;
+    }
+
+    string? nomeBusca;
+    bool nomeEncontrado = false;
+    do
+    {
+        Console.Write("\nDigite o nome do produto: ");
+        nomeBusca = Console.ReadLine()?.Trim();
+
+        if (string.IsNullOrWhiteSpace(nomeBusca))
+        {
+            Console.WriteLine("Nome inválido! Tente novamente.");
+        }
+        else
+        {
+            foreach (Produto produto in listaProdutos)
+            {
+                if (string.Equals(produto.Nome, nomeBusca, StringComparison.OrdinalIgnoreCase))
+                {
+                    Console.WriteLine("Produto encontrado!");
+                    nomeEncontrado = true;
+
+                    int quantidadeRemover;
+                    bool quantidadeValida = false;
+                    do
+                    {
+                        Console.Write("\nDigite a quantidade a ser removida: ");
+                        if (int.TryParse(Console.ReadLine(), out quantidadeRemover) && quantidadeRemover > 0)
+                        {
+                            if (quantidadeRemover > produto.Quantidade)
+                            {
+                                Console.WriteLine("Estoque insuficiente! Tente novamente.");
+                            }
+                            else
+                            {
+                                produto.RemoverEstoque(quantidadeRemover);
+                                Console.WriteLine("Estoque atualizado com sucesso!");
+                                quantidadeValida = true;
+                            }
                         }
                         else
                         {
